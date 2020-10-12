@@ -1,0 +1,29 @@
+.detail-contact {
+  .row-image-detail {
+    height: 70vh;
+    display: flex;
+    flex: auto;
+    position: relative;
+  }
+  .card-body {
+    padding: 0px !important;
+
+    .col {
+      padding: 0px !important;
+    }
+    .col-text-info-detail {
+      background-color: rgb(109, 211, 172);
+    }
+  }
+
+  .row {
+    margin: 0.5em;
+  }
+  label {
+    margin: 0 !important;
+  }
+
+  .btn-none {
+    display: none;
+  }
+}

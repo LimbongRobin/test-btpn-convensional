@@ -1,53 +1,116 @@
 .main-body {
-  background-color: black;
+  background-color: rgb(255, 255, 255);
+  top: 0px;
   display: flex;
-  height: 90vh;
+  position: relative;
+  height: 100%;
   flex-direction: row;
   justify-content: space-between;
 
   .right-side {
     width: 80%;
-    background-color: rgb(146, 144, 144);
-    box-shadow: 2px 3px 3px grey;
+    flex-wrap: wrap;
+    overflow: scroll;
 
-    .cover-data {
-      background-color: black;
-      width: 70%;
-      margin: auto;
-      padding: 10px;
-      border-top-left-radius: 10px;
-      border-top-right-radius: 10px;
-      color: white;
-      font-size: 25px;
+    .card-right-side {
+      background-image: url("../../../../../src/images/list-images/background.jpg");
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: inherit;
+      position: relative;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: inherit;
+      width: 100%;
 
-      .detail-title {
-        color: white;
-        font-size: 16px;
-        font-family: Arial, Helvetica, sans-serif;
-        font-style: italic;
-      }
-      .col-10 {
-        color: white;
-        font-size: 12px;
-        font-family: Arial, Helvetica, sans-serif;
-        font-style: italic;
-      }
+      .card-body {
+        background-color: rgb(32, 160, 132);
+        border-radius: 5px;
+        min-width: 20%;
+        max-width: 20%;
+        height: 240px;
+        flex: auto;
+        display: flex;
+        flex-direction: column;
+        margin: 0 7.5px 15px;
+        overflow: hidden;
+        padding: 0.5px 20px;
 
-      .col {
-        text-align: center;
-        letter-spacing: 2px;
-        color: white;
-        font-size: 20px;
-        font-weight: bold;
-        font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
-        font-style: italic;
+        .row-image-title {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          color: white;
+          margin-top: 0px;
+
+          .image-delete {
+            background-color: rgb(109, 211, 172);
+            width: 30px;
+            text-align: center;
+            cursor: pointer;
+            display: none;
+
+            &:hover {
+              background-color: rgb(19, 143, 95);
+            }
+          }
+        }
+        .img-card {
+          .col {
+            padding: 0px !important;
+          }
+          .img-contact {
+            width: 100%;
+            height: 210px;
+            background-position: center;
+            background-size: cover;
+            border-radius: 10px;
+            z-index: 8888;
+            top: 0px;
+          }
+
+          &:hover {
+            cursor: pointer;
+
+            & .img-contact {
+              transform: scale(1.02);
+              transition: transform 4s cubic-bezier(0.25, 0.45, 0.45, 0.95);
+            }
+            & .row-image-title {
+              transform: scale(1.02);
+              transition: transform 4s cubic-bezier(0.25, 0.45, 0.45, 0.95);
+            }
+          }
+
+          .row-img-card {
+            display: flex;
+            flex-direction: column;
+
+            .btn-view {
+              z-index: 9999;
+              top: -100px;
+            }
+          }
+        }
+
+        &:hover {
+          -ms-transform: scale(1.05);
+          -webkit-transform: scale(1.05);
+          transform: scale(1.05);
+          transition: transform 2s;
+
+          & .image-delete {
+            display: block;
+            transition: display 2s;
+          }
+        }
       }
     }
   }
 
   .left-side {
     width: 30%;
-    background-color: rgb(22, 21, 21);
+    background-color: rgb(245, 245, 245);
     box-shadow: 2px 3px 3px grey;
 
     .title {
@@ -60,9 +123,7 @@
     cursor: pointer;
 
     .row-of-list {
-      background-color: rgb(207, 207, 207);
       margin-bottom: 0.5em;
-      height: 30px;
       align-items: center;
       box-shadow: 2px 2px 2px white;
       animation: fadeIn 1s;

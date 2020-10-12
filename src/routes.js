@@ -6,6 +6,10 @@ const Task = React.lazy(() =>
   import("./views/layout/component/task/task.component")
 );
 
+const ListContact = React.lazy(() =>
+  import("./views/layout/component/list-contact/list-contact.component")
+);
+
 const routes =[
     {path:"/task", exact:true, name:"task", component:Task},
     // {path:"/body", exact:true, name:"body", component:Body},
@@ -14,6 +18,12 @@ const routes =[
       path: "/body",
       name: "body",
       component: Body,
+    },
+
+    {
+      path: "/list-contact",
+      name: "list-contact",
+      component: ListContact,
     },
 
 ]

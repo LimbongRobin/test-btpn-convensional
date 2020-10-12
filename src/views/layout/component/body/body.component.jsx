@@ -1,126 +1,151 @@
 import React, { fragment, Component, Fragment } from "react";
-import { Row, Col, Card, CardBody, Input, Label } from "reactstrap";
+import { Row, Col, Card, CardBody, Input, Modal, ModalHeader, ModalBody } from "reactstrap";
+import ListContact from "../list-contact/list-contact.component";
+import robin from "../../../../../src/images/list-images/photo.jpg";
+import DetailContact from "../popup/detail-contact.component";
+import {connect} from "react-redux";
+import {setCurrentContact} from "../../../../../src/redux/contact/contact.action";
+
 import "./body.styles.scss";
 
 import store from "../../../../global/store";
+import swal from "sweetalert";
 
 class Body extends Component {
   constructor(props) {
     super(props);
     this.state = {
       arrData: [],
-      objDetail: {},
-      category: "Name ",
+      proFileImg:"",
+      objDataSearch:[],
+      modal:false
     };
   }
 
-  handleSearch = async (e) => {
-    const { value } = e.target;
-    if (value.length > 2) {
-      try {
-        let result = await store.actions.getAllMovies();
-        console.log(result.data.results);
-        this.setState({
-          arrData: result.data.results,
-        });
-      } catch (err) {
-        this.setState({
-          arrData: [],
-        });
-      }
-    } else {
-      this.setState({
-        arrData: [],
-      });
-    }
-  };
+  componentDidMount = async()=>{
+    this.handleGetAllData();
+  }
 
-  handleDetailMovie = (e) => {
-    let data = this.state.arrData.find(
-      (key) => String(key.episode_id) === e.target.id
-    );
-    console.log(data);
-    if (data !== undefined) {
+  handleGetAllData = async()=>{
+    let result = await store.actions.getAllContact();
+    this.setState({
+      arrData:result.data.data
+    })
+  }
+
+  handleSearchData = async(e)=>{
+    if(e.target.value.length >0){
+      try{
+        let result = await store.actions.searchContact(e.target.value);
+        console.log("wiwin 33 ", result.data);
+        if(result.data!== undefined){
+          this.state.objDataSearch =[];
+          this.state.objDataSearch.push(result.data.data);
+          this.setState({
+            objDataSearch:this.state.objDataSearch
+          })
+        }else{
+            swal("info","Contact Not Found", "info");
+        }
+      }catch(err){
+        swal("info","Sorry Data Not Found", "info");
+      }
+    }else{
       this.setState({
-        objDetail: data,
-      });
+        objDataSearch:[]
+      })
     }
-  };
+    
+  }
+
+  handleViewData = async (e)=>{
+    let key = e.target.parentNode.parentNode.parentNode.parentNode.getAttribute("id");
+    const obj = this.state.arrData.find((data)=>data.id===key);
+    await this.props.setCurrentContact({dataContact:obj});
+    this.handleModal();
+  }
+
+  handleViewDataFromSearch = async()=>{
+    await this.props.setCurrentContact({dataContact:this.state.objDataSearch[0]});
+    this.handleModal();
+  }
+
+  handleDeletContact = async(e)=>{
+    let key = e.target.parentNode.parentNode.parentNode.getAttribute("id");
+    swal({
+      title: "Are You Sure",
+      text:"Contact Will Be Deleted Permanently",
+      icon:"warning",
+      buttons:true,
+      dangerMode:true
+    }).then( async (willDelete)=>{
+      if(willDelete){
+        try{
+          let result = await store.actions.deleteContact(key);
+          console.log(result);
+          if(result.status===202){
+            swal("info", "Data Has Been Deleted", "success");
+            await this.handleGetAllData();
+          }
+        }catch(e){
+          swal("info", "Something Wrong With Your Connections ", "info");
+        }
+      }else{
+        return false;
+      }
+    })
+    
+  }
+
+  handleModal= ()=>{
+    this.setState({
+      modal: !this.state.modal
+    },()=>{
+      if(this.state.modal===false){
+        this.handleGetAllData();
+      }
+    })
+  }
+
+  handleUploadFile = (e)=>{
+    const reader = new FileReader();
+    reader.onload = () =>{
+      if(reader.readyState === 2){
+        this.setState({
+          proFileImg: reader.result
+        })
+      }
+    }
+    reader.readAsDataURL(e.target.files[0]);
+  }
 
   render() {
-    console.log(this.state.objDetail);
+    console.log("wiwin ",this.state.objDataSearch);
     return (
       <Fragment>
         <div className="main-body">
           <div className="right-side">
-            <CardBody>
-              <div className="">
-                <Row>
-                  <CardBody>
-                    {Object.keys(this.state.objDetail).length > 0 && (
-                      <div className="cover-data">
-                        <Col xs="12">
-                          <Row>
-                            <Col> Description </Col>
-                          </Row>
-                          <Row>
-                            <Col xs="2" className="detail-title">
-                              Title
-                            </Col>
-                            <Col xs="10" id="title">
-                              {this.state.objDetail.title}
-                            </Col>
-                          </Row>
-                          <Row>
-                            <Col xs="2" className="detail-title">
-                              Directore
-                            </Col>
-                            <Col xs="10" id="directore">
-                              {this.state.objDetail.director}
-                            </Col>
-                          </Row>
-                          <Row>
-                            <Col xs="2" className="detail-title">
-                              Last Edite
-                            </Col>
-                            <Col xs="10" id="edited">
-                              {this.state.objDetail.edited !== undefined
-                                ? this.state.objDetail.edited.slice(0, 10)
-                                : this.state.objDetail.edited}
-                            </Col>
-                          </Row>
-                          <Row>
-                            <Col xs="2" className="detail-title">
-                              Created
-                            </Col>
-                            <Col xs="10" id="created">
-                              {this.state.objDetail.created !== undefined
-                                ? this.state.objDetail.created.slice(0, 10)
-                                : this.state.objDetail.created}
-                            </Col>
-                          </Row>
-                          <Row>
-                            <Col xs="2" className="detail-title">
-                              Episode
-                            </Col>
-                            <Col xs="10" id="episode_id">
-                              {this.state.objDetail.episode_id}
-                            </Col>
-                          </Row>
-                          <Row>
-                            <Col xs="2" className="detail-title">
-                              Description
-                            </Col>
-                            <Col xs="10" id="opening">
-                              {this.state.objDetail.opening_crawl}
-                            </Col>
-                          </Row>
-                        </Col>
+            <CardBody className="card-right-side">
+                {
+                  this.state.arrData.map((data,index)=>(
+                    <div className="card-body" id={data.id}>             
+                      <div className="img-card">
+                        <Row className="row-img-card">
+                          <Col>
+                            <img src={data.photo} alt="" className="img-contact"onClick={(e)=>this.handleViewData(e)}/>
+                          </Col>
+                          
+                        </Row>
                       </div>
-                    )}
-                  </CardBody>
-                </Row>
-              </div>
+                      <div className="image-title">
+                        <Row className="row-image-title">
+                          <div xs="11" className="image-name">{data.firstName}</div>
+                          <div xs="1" className="image-delete" onClick={(e)=>this.handleDeletContact(e)}>X</div>
+                        </Row>
+                      </div>
+                    </div>
+                  ))
+                }
             </CardBody>
           </div>
           <div className="left-side">
@@ -132,26 +157,16 @@ class Body extends Component {
                       type="text"
                       name="search"
                       placeholder="Search..."
-                      onChange={(e) => this.handleSearch(e)}
+                      onChange={(e) => this.handleSearchData(e)}
                     ></Input>
                   </Col>
                 </Row>
                 <Row>
                   <CardBody className="list-data">
                     <Col xs="12">
-                      {this.state.arrData.map((data, index) => (
-                        <Row
-                          key={index}
-                          onClick={(e) => this.handleDetailMovie(e)}
-                          className="row-of-list"
-                        >
-                          <Col xs="3" className="title" id={data.episode_id}>
-                            {this.state.category + " " + data.episode_id}
-                          </Col>
-
-                          <Col xs="9" className="title" id={data.episode_id}>
-                            {data.title}
-                          </Col>
+                      {this.state.objDataSearch.map((data, index) => (
+                        <Row className="row-of-list"> 
+                          <ListContact data={data} handleViewDataFromSearch={this.handleViewDataFromSearch}></ListContact>
                         </Row>
                       ))}
                     </Col>
@@ -161,8 +176,33 @@ class Body extends Component {
             </CardBody>
           </div>
         </div>
+        <div>
+            <Modal 
+              isOpen={this.state.modal}
+              toggle={this.handleModal}
+              className="modal-primary modal-lg"
+              backdrop="static"
+              keyboard={false}
+              >
+              <ModalHeader toggle={this.handleModal} closeButton>
+                <h3>Contact Detail</h3>
+              </ModalHeader>
+              <ModalBody>
+                  <DetailContact></DetailContact>
+              </ModalBody>
+
+            </Modal>
+        </div>
       </Fragment>
     );
   }
 }
-export default Body;
+
+const mapStateToProps = state=>({
+  contact:state.contact
+});
+
+const  mapDispatchToProps = (dispatch) =>({
+  setCurrentContact:(test)=> dispatch(setCurrentContact(test))
+});
+export default connect(mapStateToProps,mapDispatchToProps)(Body);

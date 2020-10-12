@@ -3,6 +3,7 @@ import { Redirect, Route, Switch } from "react-router-dom";
 import routes from "../../routes";
 // import SideBar from "../sidebar";
 import Header from "../header-component/header.component"
+import "./default-layout.styles.scss";
 // import  global  from '../../global/global';
 
 // import Auth from '../../auth/auth';
@@ -22,11 +23,14 @@ class DefaultLayout extends Component {
     return (
       <div className="app">
         <div className="app-body">
+          <header>
           <Suspense>
             {/* <AppSidebarNav navConfig={this.state.navData} {...this.props} /> */}
             <Header style={{ position: "fixed" }}></Header>
           </Suspense>
-          <main className="main">
+          </header>
+          <main>
+            <div className="main">
             <Suspense fallback={this.loading()}>
               <Switch>
                 {routes.map((route, idx) => {
@@ -43,6 +47,9 @@ class DefaultLayout extends Component {
                 <Redirect from="/" to="/body" />
               </Switch>
             </Suspense>
+          
+            </div>
+           
           </main>
         </div>
       </div>

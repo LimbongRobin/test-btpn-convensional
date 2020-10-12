@@ -18,7 +18,7 @@ const Header = () => {
           <NavItem>
             <NavLink>
               <Link className="header-link" to="/task">
-                Task
+                Create
               </Link>
             </NavLink>
           </NavItem>

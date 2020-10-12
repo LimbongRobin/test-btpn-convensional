@@ -1,0 +1,51 @@
+.image-cover {
+  padding: 5px;
+  background-color: black;
+}
+
+.image-description-list {
+  background-color: red;
+}
+
+.list-contact {
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: rgb(224, 220, 220);
+  width: 100%;
+  padding: 5px;
+  border-radius: 5px;
+  .card {
+    height: 60px;
+    width: 50px;
+    border: none;
+  }
+  img {
+    height: 100%;
+    width: 100%;
+    border-radius: 100% !important;
+
+    &:hover {
+      box-shadow: 4px 4px 4px lightgrey;
+    }
+  }
+
+  .image-name {
+    color: rgb(17, 16, 16);
+    font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+    font: outline;
+    margin-left: 1em;
+  }
+}
+
+@keyframes image {
+  from {
+    height: 100px;
+    width: 80px;
+  }
+  to {
+    height: 101px;
+    width: 81px;
+  }
+}

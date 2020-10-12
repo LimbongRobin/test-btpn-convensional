@@ -1,0 +1,84 @@
+.main-body {
+  top: 0px;
+  display: flex;
+  position: relative;
+  height: 100%;
+  flex-direction: row;
+  justify-content: space-between;
+
+  .right-side {
+    width: 100%;
+    background-color: rgb(23, 100, 71);
+    background-image: url("../../../../../src/images/list-images/background.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: inherit;
+
+    .card-right-side {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+
+      .column-form {
+        background-color: rgb(141, 201, 174);
+        z-index: 8888;
+        border-radius: 5px;
+        color: black;
+
+        .button-image {
+          cursor: pointer;
+          position: relative;
+          z-index: 8888;
+          color: black;
+          background-color: rgb(207, 204, 204);
+
+          .input-image {
+            margin-top: -30px;
+            position: relative;
+            opacity: 0;
+            z-index: 7777;
+            cursor: pointer;
+          }
+        }
+
+        .button-save {
+          margin-top: 2em;
+          background-color: rgb(47, 123, 211);
+        }
+      }
+      .image-create-body {
+        height: 100px;
+        width: 100px;
+        margin-top: auto;
+        margin-left: 40%;
+        border-radius: 50px;
+        background-color: honeydew;
+        border: solid 2px rgb(141, 201, 174);
+        position: relative;
+        top: 20px;
+        z-index: 9999;
+
+        .img-create {
+          border-radius: 50%;
+          position: absolute;
+          z-index: 8888;
+        }
+        .rounded {
+          border-radius: 50% !important;
+          z-index: 8888;
+          position: absolute;
+          border: 0px !important;
+        }
+        .img-thumbnail {
+          border: 0px !important;
+          padding: 0px;
+          height: 100%;
+          width: 100%;
+          margin: 0px;
+          padding: 0px;
+        }
+      }
+    }
+  }
+}
